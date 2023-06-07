@@ -8,30 +8,35 @@ type StateType = {
   class: string;
 };
 
-export type PropsType = {
-  change: (e: MouseEvent<HTMLButtonElement>) => void;
-  color: string;
-}
-
 const lightColorStates: StateType = {
-  functional: "red", 
-  class: "red" 
+  functional: "red",
+  class: "red",
 };
+
+export type PropsType = {
+  allColors: string[];
+  change: (e: MouseEvent<HTMLButtonElement>) => void;
+  currentColor: string;
+};
+
+const trafficLightColors = ["red", "yellow", "green"];
 
 function App() {
   const [lightColor, setLightColor] = useState(lightColorStates);
 
   const changeColors = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const colors: string[] = ["red", "yellow", "green"];
     const lightKey: string = e.currentTarget.value;
-    const currentColor: string = lightColor[lightKey]
-    const currentColorIdx: number = colors.findIndex(color => color === currentColor);
-    const nextColor = currentColorIdx !== 2 
-      ? colors[currentColorIdx + 1]
-      : colors[0] 
+    const currentColor: string = lightColor[lightKey];
+    const currentColorIdx: number = trafficLightColors.findIndex(
+      (color) => color === currentColor
+    );
+    const nextColor =
+      currentColorIdx !== 2
+        ? trafficLightColors[currentColorIdx + 1]
+        : trafficLightColors[0];
 
     setLightColor({ ...lightColor, [lightKey]: nextColor });
-  }
+  };
 
   return (
     <>
@@ -39,15 +44,17 @@ function App() {
         <h1>Traffic light App</h1>
         <div className="container">
           <div className="left">
-            <FunctionalTrafficLight 
+            <FunctionalTrafficLight
+              allColors={trafficLightColors}
               change={changeColors}
-              color={lightColor.functional}
+              currentColor={lightColor.functional}
             />
           </div>
           <div className="right">
             <ClassTrafficLight 
-              change={changeColors}
-              color={lightColor.class}
+              allColors={trafficLightColors}
+              change={changeColors} 
+              currentColor={lightColor.class} 
             />
           </div>
         </div>
