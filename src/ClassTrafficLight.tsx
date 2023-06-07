@@ -1,6 +1,7 @@
 import { Component } from "react";
+import { PropsType } from "./App";
 
-export class ClassTrafficLight extends Component {
+export class ClassTrafficLight extends Component <PropsType> {
   render() {
     return (
       <div className="traffic-light-box">
