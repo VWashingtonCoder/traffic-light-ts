@@ -3,39 +3,31 @@ import "./App.css";
 import { ClassTrafficLight } from "./ClassTrafficLight";
 import { FunctionalTrafficLight } from "./FunctionalTrafficLight";
 
-type StateType = {
-  [functional: string]: string;
-  class: string;
-};
-
-const lightColorStates: StateType = {
-  functional: "red",
-  class: "red",
-};
-
-export type PropsType = {
-  allColors: string[];
-  change: (e: MouseEvent<HTMLButtonElement>) => void;
-  currentColor: string;
-};
-
-const trafficLightColors = ["red", "yellow", "green"];
-
 function App() {
-  const [lightColor, setLightColor] = useState(lightColorStates);
+  const [classColor, setClassColor] = useState("red");
+  const [functionalColor, setFunctionalColor] = useState("red");
+  const trafficLightColors = ["green", "yellow", "red"];
 
-  const changeColors = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const lightKey: string = e.currentTarget.value;
-    const currentColor: string = lightColor[lightKey];
-    const currentColorIdx: number = trafficLightColors.findIndex(
-      (color) => color === currentColor
+  const changeClassColor = () => {
+    const currentIdx = trafficLightColors.findIndex(
+      (color) => color === classColor
     );
     const nextColor =
-      currentColorIdx !== 2
-        ? trafficLightColors[currentColorIdx + 1]
+      currentIdx !== 2
+        ? trafficLightColors[currentIdx + 1]
         : trafficLightColors[0];
+    setClassColor(nextColor);
+  };
 
-    setLightColor({ ...lightColor, [lightKey]: nextColor });
+  const changeFunctionalColor = () => {
+    const currentIdx = trafficLightColors.findIndex(
+      (color) => color === functionalColor
+    );
+    const nextColor =
+      currentIdx !== 2
+        ? trafficLightColors[currentIdx + 1]
+        : trafficLightColors[0];
+    setFunctionalColor(nextColor);
   };
 
   return (
@@ -45,16 +37,14 @@ function App() {
         <div className="container">
           <div className="left">
             <FunctionalTrafficLight
-              allColors={trafficLightColors}
-              change={changeColors}
-              currentColor={lightColor.functional}
+              change={changeFunctionalColor}
+              currentColor={functionalColor}
             />
           </div>
           <div className="right">
-            <ClassTrafficLight 
-              allColors={trafficLightColors}
-              change={changeColors} 
-              currentColor={lightColor.class} 
+            <ClassTrafficLight
+              change={changeClassColor}
+              currentColor={classColor}
             />
           </div>
         </div>
